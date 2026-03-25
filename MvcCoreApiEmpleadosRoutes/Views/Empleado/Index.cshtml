@@ -1,0 +1,54 @@
+﻿@model List<Empleado>
+
+@{
+    List<string> oficios = ViewData["OFICIOS"] as List<string>;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Api Empleados Routes</h1>
+    <form method="post">
+        <label>Oficios:</label>
+        <select class="form-control" name="oficio">
+            @foreach (string oficio in oficios)
+            {
+                <option value="@oficio">@oficio</option>
+            }
+        </select>
+        <button class="btn btn-warning">Mostrar empleados</button>
+    </form>
+
+    <br />
+    <hr />
+    <br />
+
+    @if (Model != null)
+    {
+        <table class="table table-info">
+            <thead>
+                <tr>
+                    <th>Id Empleado</th>
+                    <th>Apellido</th>
+                    <th>Oficio</th>
+                    <th>Salario</th>
+                    <th>Id Departamento</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Empleado emp in Model)
+                {
+                    <tr>
+                        <td>@emp.IdEmpleado</td>
+                        <td>@emp.Apellido</td>
+                        <td>@emp.Oficio</td>
+                        <td>@emp.Salario</td>
+                        <td>@emp.IdDepartamento</td>
+                        <td>
+                            <a class="btn btn-info" asp-controller="Empleado" asp-action="Details" asp-route-id="@emp.IdEmpleado">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

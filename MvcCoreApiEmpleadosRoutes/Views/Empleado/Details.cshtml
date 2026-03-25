@@ -1,0 +1,29 @@
+﻿@model Empleado
+
+<div class="text-center">
+    <h1 class="display-4">Api Details Empleado</h1>
+
+    @if (Model != null)
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id Empleado</th>
+                    <th>Apellido</th>
+                    <th>Oficio</th>
+                    <th>Salario</th>
+                    <th>Id Departamento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.IdEmpleado</td>
+                    <td>@Model.Apellido</td>
+                    <td>@Model.Oficio</td>
+                    <td>@Model.Salario</td>
+                    <td>@Model.IdDepartamento</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

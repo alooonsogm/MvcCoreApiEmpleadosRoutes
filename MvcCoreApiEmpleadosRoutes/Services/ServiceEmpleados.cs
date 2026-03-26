@@ -14,84 +14,48 @@ namespace MvcCoreApiEmpleadosRoutes.Services
             this.header = new MediaTypeWithQualityHeaderValue("application/json");
         }
 
-        public async Task<List<Empleado>> GetEmpleadoAsync()
+        //Lo que necesitamos en el metodo generico es simplemente el request de la peticion.
+        private async Task<T> CallApiAsync <T>(string request)
         {
             using (HttpClient client = new HttpClient())
             {
-                string request = "api/empleado";
                 client.BaseAddress = new Uri(this.ApiUrl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.header);
                 HttpResponseMessage response = await client.GetAsync(request);
                 if (response.IsSuccessStatusCode == true)
                 {
-                    return await response.Content.ReadAsAsync<List<Empleado>>();
+                    return await response.Content.ReadAsAsync<T>();
                 }
                 else
                 {
-                    return null;
+                    return default(T);
                 }
             }
+        }
+
+        public async Task<List<Empleado>> GetEmpleadoAsync()
+        {
+            string request = "api/empleado";
+            return await this.CallApiAsync<List<Empleado>>(request);
         }
 
         public async Task<Empleado> FindEmpleadoAsync(int id)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string request = "api/empleado/" + id;
-                client.BaseAddress = new Uri(this.ApiUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(this.header);
-                HttpResponseMessage response = await client.GetAsync(request);
-                if (response.IsSuccessStatusCode == true)
-                {
-                    return await response.Content.ReadAsAsync<Empleado>();
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            string request = "api/empleado/" + id;
+            return await this.CallApiAsync<Empleado>(request);
         }
 
         public async Task<List<string>> GetOficioAsync()
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string request = "api/empleado/oficios";
-                client.BaseAddress = new Uri(this.ApiUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(this.header);
-                HttpResponseMessage response = await client.GetAsync(request);
-                if (response.IsSuccessStatusCode == true)
-                {
-                    return await response.Content.ReadAsAsync<List<string>>();
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            string request = "api/empleado/oficios";
+            return await this.CallApiAsync<List<string>>(request);
         }
 
         public async Task<List<Empleado>> GetEmpleadoOficioAsync(string oficio)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string request = "api/Empleado/EmpleadosByOficio/" + oficio;
-                client.BaseAddress = new Uri(this.ApiUrl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(this.header);
-                HttpResponseMessage response = await client.GetAsync(request);
-                if (response.IsSuccessStatusCode == true)
-                {
-                    return await response.Content.ReadAsAsync<List<Empleado>>();
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            string request = "api/Empleado/EmpleadosByOficio/" + oficio;
+            return await this.CallApiAsync<List<Empleado>>(request);
         }
     }
 }
